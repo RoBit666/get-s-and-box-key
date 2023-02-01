@@ -1,5 +1,10 @@
 const itIsMeClassName = "it-is-me";
 
+let animationIsActive = true;
+let lastAnimatedElement = undefined;
+
+browser.runtime.onMessage.addListener(messageListener);
+
 (async () => {
 
     while (true) {
@@ -10,11 +15,9 @@ const itIsMeClassName = "it-is-me";
             continue;
         }
 
-        clearItIsMeClass();
-
         const userImage = getUserImage();
         if (userImage !== undefined) {
-            addItIsMeClass(userImage);
+            addItIsMeAnimation(userImage);
             continue;
         }
 
@@ -22,6 +25,12 @@ const itIsMeClassName = "it-is-me";
     }
 
 })().then();
+
+function messageListener(request, sender, sendResponse) {
+    if (request.action === "change-animation-state") {
+        animationIsActive = request.value;
+    }
+}
 
 function getUserImage() {
     let imgs = document.getElementsByTagName('img');
@@ -54,32 +63,36 @@ function enterInQueue() {
     return true;
 }
 
-function clearItIsMeClass() {
-    let itIsMeElements = document.getElementsByClassName(itIsMeClassName);
+function addItIsMeAnimation(element) {
+    if (animationIsActive === false) {
+        if (lastAnimatedElement !== undefined) {
+            lastAnimatedElement.classList.remove(itIsMeClassName);
 
-    for (let i = 0; i < itIsMeElements.length; i++) {
-        let element = itIsMeElements[i];
-        element.classList.remove(itIsMeClassName);
+            lastAnimatedElement = undefined;
+        }
+
+        return;
     }
-}
 
-function addItIsMeClass(element) {
+    if (element.classList.contains(itIsMeClassName))
+        return;
+
+    if (lastAnimatedElement !== undefined) {
+        lastAnimatedElement.classList.remove(itIsMeClassName);
+    }
+
     element.classList.add(itIsMeClassName);
+
+    lastAnimatedElement = element;
 }
 
 function needReconnect() {
-    let modalWindows = document.getElementsByClassName("components-reconnect-show");
-    let netErrorPages = document.getElementsByClassName("neterror");
-    return modalWindows.length > 0 || netErrorPages.length > 0;
+    const errorBadGetaway = document.getElementById("cf-error-details");
+    const modalWindows = document.getElementsByClassName("components-reconnect-show");
+    const netErrorPages = document.getElementsByClassName("neterror");
+    return modalWindows.length > 0 || netErrorPages.length > 0 || errorBadGetaway !== null;
 }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-// browser.runtime.onMessage.addListener(messageListener);
-// function messageListener(request, sender, sendResponse) {
-//     if (request.action === "get-nickname") {
-//         sendResponse(getPotentialUserNickname());
-//     }
-// }
