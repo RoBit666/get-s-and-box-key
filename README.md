@@ -1,4 +1,4 @@
-# get-s-and-box-key
+# Get S&Box key 
 Расширение Firefox для автоматического входа в [очередь на Dev Preview S&Box]
 
 ## Установка
