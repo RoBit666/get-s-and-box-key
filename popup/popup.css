@@ -26,17 +26,54 @@ html {
 
 body {
     background: var(--background-color);
-}
-
-.popup__content {
-    margin: 20px;
 
     width: 200px;
     max-width: 200px;
+}
 
+.content {
+    margin: 0 20px;
     display: flex;
-    flex-direction: column;
+}
 
+.popup__header {
+    background: #15171e;
+}
+
+.header__content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    flex-direction: row;
+    align-content: center;
+}
+
+.header__logo {
+    width: 32px;
+    height: 32px;
+
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.header__logo-title {
+    font-size: 20px;
+}
+
+.header__logo-title_left {
+    color: white;
+}
+
+.header__logo-title_right {
+    color: var(--main-color);
+    font-weight: 900;
+}
+
+.popup__content {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -47,10 +84,7 @@ body {
     color: white;
     border-radius: 4px;
 
-    font-family: Poppins, serif;
     font-weight: bold;
-    font-size: 12px;
-
     text-transform: uppercase;
 }
 
@@ -107,10 +141,6 @@ input[type=text] {
 
     background-color: var(--main-color);
     color: white;
-
-    font-family: Poppins, serif;
-    font-weight: normal;
-    font-size: 12px;
 }
 
 input[type=text]:hover {
