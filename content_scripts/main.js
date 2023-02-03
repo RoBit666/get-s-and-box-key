@@ -5,26 +5,28 @@ let lastAnimatedElement = undefined;
 
 browser.runtime.onMessage.addListener(messageListener);
 
-(async () => {
+window.addEventListener("load", () => {
+    console.log("Loop start");
+    loop().then();
+});
 
-    while (true) {
-        await sleep(1000);
+// noinspection InfiniteRecursionJS
+async function loop() {
+    if (reloadIsRequired()) {
+        console.warn("Reload");
+        location.reload();
+    }
 
-        if (needReconnect()) {
-            location.reload();
-            continue;
-        }
-
-        const userImage = getUserImage();
-        if (userImage !== undefined) {
-            addItIsMeAnimation(userImage);
-            continue;
-        }
-
+    const userImage = getUserImage();
+    if (userImage !== undefined) {
+        addItIsMeAnimation(userImage);
+    } else {
         enterInQueue();
     }
 
-})().then();
+    await sleep(250);
+    await loop();
+}
 
 function messageListener(request, sender, sendResponse) {
     if (request.action === "change-animation-state") {
@@ -55,7 +57,7 @@ function getEnterButton() {
 function enterInQueue() {
     let enterButton = getEnterButton();
 
-    if (enterButton === null || enterButton.disabled) {
+    if (enterButton === undefined || enterButton.disabled) {
         return false;
     }
 
@@ -86,7 +88,7 @@ function addItIsMeAnimation(element) {
     lastAnimatedElement = element;
 }
 
-function needReconnect() {
+function reloadIsRequired() {
     const errorBadGetaway = document.getElementById("cf-error-details");
     const modalWindows = document.getElementsByClassName("components-reconnect-show");
     const netErrorPages = document.getElementsByClassName("neterror");
