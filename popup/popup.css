@@ -27,8 +27,7 @@ html {
 body {
     background: var(--background-color);
 
-    width: 200px;
-    max-width: 200px;
+    min-width: 200px;
 }
 
 .content {
@@ -93,6 +92,8 @@ body {
 }
 
 label {
+    white-space: nowrap;
+
     display: flex;
     flex-direction: row;
     align-items: center;
