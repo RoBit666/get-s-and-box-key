@@ -12,6 +12,10 @@
 
 #### Внимание! Установленное таким образом расширение будет работать только до закрытия браузера, при следующем запуске нужно снова загрузить расширение(см. пункт 2 установки) 
 
+## Настройка WebStorm
+[тут :)]
+
 [очередь на Dev Preview S&Box]: https://asset.party/get/developer/preview
 [страницу Dev Preview S&Box]: https://asset.party/get/developer/preview
 [Releases]: https://github.com/RoBit666/get-s-and-box-key/releases
+[тут :)]: https://stackoverflow.com/questions/42169477/intellij-firefox-web-extensions-development
