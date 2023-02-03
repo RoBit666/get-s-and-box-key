@@ -5,27 +5,35 @@ let lastAnimatedElement = undefined;
 
 browser.runtime.onMessage.addListener(messageListener);
 
-window.addEventListener("load", () => {
-    console.log("Loop start");
-    loop().then();
-});
+console.log("Loop start");
+loop().then();
 
 // noinspection InfiniteRecursionJS
 async function loop() {
+    if (document.readyState === "complete") {
+        tick();
+    }
+
+    await sleep(1000);
+    await loop();
+}
+
+function tick() {
     if (reloadIsRequired()) {
         console.warn("Reload");
         location.reload();
+        return;
     }
 
     const userImage = getUserImage();
     if (userImage !== undefined) {
         addItIsMeAnimation(userImage);
-    } else {
-        enterInQueue();
+        return;
     }
 
-    await sleep(250);
-    await loop();
+    if (enterInQueue() === false) {
+        console.warn("Failed to enter the queue");
+    }
 }
 
 function messageListener(request, sender, sendResponse) {
